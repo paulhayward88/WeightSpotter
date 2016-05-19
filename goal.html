@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html ng-app="WeightLoss">
+ 
+<head>
+    <title>Main Page</title>
+    
+<!-- LINKS -->
+    <link rel="stylesheet" type="text/css" href="loss.css" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    
+<!-- SCRIPTS -->
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+   
+    <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.7.1/angularfire.min.js"></script>
+    <script type="text/javascript" src="loss.js"></script>
+ 
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <style> canvas { -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none;} </style>
+    
+</head>
+    
+ <!----------------------------------------------------------------------------------------------------------------------------
+      BODY
+------------------------------------------------------------------------------------------------------------------------------> 
+<body ng-controller="MainController" >
+    <div class="topPage"> Weight Spotter</div> 
+    <div class="target">
+        
+<table style="width:100%">
+  <tr>
+<!----------------------------------------------------------------------------------------------------------------------------
+      Left Table
+------------------------------------------------------------------------------------------------------------------------------>      
+<td width="25" valign="top">
+    <h5> Welcome: {{getUn2()}}
+        
+        <a href="javascript:"  style="color:grey"> <a href="profile.html" onclick="return popitup('profile.html')">
+        <i class="fa fa-cog" aria-hidden="true" ></i></a>
+            <script language="javascript" type="text/javascript">
+                function popitup(url) {newwindow=window.open(url,'name', height= "50",width="350");
+               if (window.focus) {newwindow.focus()} return false;}
+            </script></a>
+        </h5>
+        <form ng-keypress="insertNewWeight($event)" >
+        <input type="text" id="initalWeight" placeholder="Weight:" ng-model="todayWeight" /></form>
+    <h5> Todays Weight {{todayInput()}} Kg </h5>
+</td>
+<!----------------------------------------------------------------------------------------------------------------------------
+      Middle Table
+------------------------------------------------------------------------------------------------------------------------------>
+<td width="25%" >
+            <h6> Weight Statistics </h6>
+            <h7><b> Goal Difference:</b> {{getGoalDiff()}}<br>
+            <b> Days active:</b> "values not null"<br>
+            <b> Prediction:</b>"TBD"<br>
+            <b>Edit Weight:</b>
+                <a href="edit.html" onclick="return popitup('edit.html')">
+       <i class="fa fa-balance-scale fa-1x" aria-hidden="true" ></i></a>
+
+        <script language="javascript" type="text/javascript">
+            function popitup(url) {newwindow=window.open(url,'name','height=400,width=650');
+                if (window.focus) {newwindow.focus()} return false;}</script>
+                
+                
+                
+    </h7> 
+</td>
+<!----------------------------------------------------------------------------------------------------------------------------
+      Rightest Table
+------------------------------------------------------------------------------------------------------------------------------>        
+<td width="25%" >
+    <h6> <br>Goal Weight  
+        <a href="javascript:" ng-click="editTarget($index)" style="color:grey">
+        <i class="fa fa-cog" aria-hidden="true" ></i></a><br>
+        
+        <font size="10">{{ Account.targetW }}</font>Kg<br><p> Days remain: "94"</p></h6>
+</td>
+<!----------------------------------------------------------------------------------------------------------------------------
+      Right Table
+------------------------------------------------------------------------------------------------------------------------------>       
+<td width="25%">
+    &nbsp;&nbsp;
+    <h6> Friends: <br>
+    Paul Hayward (-0.6) <br>
+    Christian Cox (0.2)
+    </h6>
+    {{tester()}} 
+      
+      </td></tr></table></div>
+</body>
+<!----------------------------------------------------------------------------------------------------------------------------
+      CALENDER
+------------------------------------------------------------------------------------------------------------------------------>
+
+<div class="month"> 
+  <ul>
+    <li class="prev" id = back> <button ng-click= "moveB($event)">&#10094;</button></li>
+      
+     
+    <li class="next" id = forward><button ng-click= "moveF()">&#10095;</button></li>
+    <li>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {{monthOfYear()}} <input type="button" onclick="demoDisplayHide()" value="H"> 
+                <input type="button" onclick="demoDisplayShow()" value="S">
+       
+       
+    </li>
+  </ul>
+</div>
+<label id="calender">
+<ul class="weekdays">
+  <li>Mon</li>
+  <li>Tue</li>
+  <li>Wed</li>
+  <li>Thu</li>
+  <li>Fri</li>
+  <li>Sat</li>
+  <li>Sun</li>
+</ul>
+
+<ul class="days"> 
+
+<td>
+    <li><ol><b>1th</b><br>&#40;<li id = "1st"></li>&nbsp;&nbsp;&#41;</ol>           
+    <li><ol><b>2th</b><br>&#40;<li id = "2nd"></li>&nbsp;&nbsp;&#41;</ol> 
+    <li><ol><b>3th</b><br>&#40;<li id = "3rd"></li>&nbsp;&nbsp;&#41;</ol> 
+    <li><ol><b>4th</b><br>&#40;<li id = "4th"></li>&nbsp;&nbsp;&#41;</ol>     
+    <li><ol><b>5th</b><br>&#40;<li id = "5th"></li>&nbsp;&nbsp;&#41;</ol>     
+    <li><ol><b>6th</b><br>&#40;<li id = "6th"></li>&nbsp;&nbsp;&#41;</ol>  
+    <li><ol><b>7th</b><br>&#40;<li id = "7th"></li>&nbsp;&nbsp;&#41;</ol>
+        
+    <li><ol><b>8th</b><br>&#40;<li id = "8th"></li>&nbsp;&nbsp;&#41;</ol>  
+    <li><ol><b>9th</b><br>&#40;<li id = "9th"></li>&nbsp;&nbsp;&#41;</ol> 
+    <li><ol><b>10th</b><br>&#40;<li id = "10th"></li>&nbsp;&nbsp;&#41;</ol> 
+    <li><ol><b>11th</b><br>&#40;<li id = "11th"></li>&nbsp;&nbsp;&#41;</ol>     
+    <li><ol><b>12th</b><br>&#40;<li id = "12th"></li>&nbsp;&nbsp;&#41;</ol>     
+    <li><ol><b>13th</b><br>&#40;<li id = "13th"></li>&nbsp;&nbsp;&#41;</ol>  
+    <li><ol><b>14th</b><br>&#40;<li id = "14th"></li>&nbsp;&nbsp;&#41;</ol>
+        
+    <li><ol><b>15th</b><br>&#40;<li id = "15th"></li>&nbsp;&nbsp;&#41;</ol>    
+    <li><ol><b>16th</b><br>&#40;<li id = "16th"></li>&nbsp;&nbsp;&#41;</ol> 
+    <li><ol><b>17th</b><br>&#40;<li id = "17th"></li>&nbsp;&nbsp;&#41;</ol> 
+    <li><ol><b>18th</b><br>&#40;<li id = "18th"></li>&nbsp;&nbsp;&#41;</ol>     
+    <li><ol><b>19th</b><br>&#40;<li id = "19th"></li>&nbsp;&nbsp;&#41;</ol>     
+    <li><ol><b>20th</b><br>&#40;<li id = "20th"></li>&nbsp;&nbsp;&#41;</ol>  
+    <li><ol><b>21th</b><br>&#40;<li id = "21st"></li>&nbsp;&nbsp;&#41;</ol>
+        
+    <li><ol><b>22th</b><br>&#40;<li id = "22nd"></li>&nbsp;&nbsp;&#41;</ol>      
+    <li><ol><b>23th</b><br>&#40;<li id = "23rd"></li>&nbsp;&nbsp;&#41;</ol> 
+    <li><ol><b>24th</b><br>&#40;<li id = "24th"></li>&nbsp;&nbsp;&#41;</ol> 
+    <li><ol><b>25th</b><br>&#40;<li id = "25th"></li>&nbsp;&nbsp;&#41;</ol>     
+    <li><ol><b>26th</b><br>&#40;<li id = "26th"></li>&nbsp;&nbsp;&#41;</ol>     
+    <li><ol><b>27th</b><br>&#40;<li id = "27th"></li>&nbsp;&nbsp;&#41;</ol>  
+    <li><ol><b>28th</b><br>&#40;<li id = "28th"></li>&nbsp;&nbsp;&#41;</ol>
+        
+    <li><ol><b>{{correct29()}}</b><br>&#40;<li id = "29th"></li>&nbsp;&nbsp;&#41;</ol>     
+    <li><ol><b>{{correct30()}}</b><br>&#40;<li id = "30th"></li>&nbsp;&nbsp;&#41;</ol>
+    <li><ol><b> {{correct31()}}</b><br>&#40;<li id = "31st"></li>&nbsp;&nbsp;&#41;</ol>   
+ 
+   
+   
+    </li> </td> </ul></label>
+    <script>
+function demoDisplayHide() {document.getElementById("calender").style.display = "none";}
+function demoDisplayShow() {document.getElementById("calender").style.display = "";} 
+function DisplayHide() {document.getElementById("lineGraph").style.display = "none";}
+function DisplayShow() {document.getElementById("lineGraph").style.display = "";}   
+function Hide() {document.getElementById("friends").style.display = "none";}
+function Show() {document.getElementById("friends").style.display = "";}     
+</script>
+   
+<div class="month">
+     <ul><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Line Graph <input type="button" onclick="DisplayHide()" value="H"> 
+                <input type="button" onclick="DisplayShow()" value="S">
+         
+         </li></ul>
+</div>
+<!----------------------------------------------------------------------------------------------------------------------------
+      Line Graph
+------------------------------------------------------------------------------------------------------------------------------> 
+<label2 id="lineGraph"> 
+<bodyGraph>{{getdates()}} <div id="curve_chart" style="width: 1219.5px; height: 500px"></div></bodyGraph>
+</label2>
+<div class="month">  
+         <ul><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Friends <input type="button" onclick="Hide()" value="H"> 
+                <input type="button" onclick="Show()" value="S">
+         
+         </li></ul>
+    </div><label2 id="friends"> Paul </label2>
+</html>
